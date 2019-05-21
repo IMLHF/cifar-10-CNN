@@ -30,14 +30,16 @@ class CNN_CLASSIFY(object):
     weights = {
         'w_conv1': tf.get_variable('w_conv1', [5, 5, 3, 32], initializer=tf.random_normal_initializer(stddev=0.01)),
         'w_conv2': tf.get_variable('w_conv2', [5, 5, 32, 64], initializer=tf.random_normal_initializer(stddev=0.01)),
-        'w_fc1': tf.get_variable('w_fc1', [5 * 5 * 64, 512], initializer=tf.random_normal_initializer(stddev=0.01)),
-        'w_fc2': tf.get_variable('w_fc32', [512, 10], initializer=tf.random_normal_initializer(stddev=0.01)),
+        'w_fc1': tf.get_variable('w_fc1', [5 * 5 * 64, 1024], initializer=tf.random_normal_initializer(stddev=0.01)),
+        'w_fc2': tf.get_variable('w_fc2', [1024, 512], initializer=tf.random_normal_initializer(stddev=0.01)),
+        'w_fc3': tf.get_variable('w_fc3', [512, 10], initializer=tf.random_normal_initializer(stddev=0.01)),
     }
     biases = {
         'b_conv1': tf.get_variable('b_conv1', [32], initializer=tf.random_normal_initializer(stddev=0.01)),
         'b_conv2': tf.get_variable('b_conv2', [64], initializer=tf.random_normal_initializer(stddev=0.01)),
-        'b_fc1': tf.get_variable('b_fc1', [512], initializer=tf.random_normal_initializer(stddev=0.01)),
-        'b_fc2': tf.get_variable('b_fc2', [10], initializer=tf.random_normal_initializer(stddev=0.01)),
+        'b_fc1': tf.get_variable('b_fc1', [1024], initializer=tf.random_normal_initializer(stddev=0.01)),
+        'b_fc2': tf.get_variable('b_fc2', [512], initializer=tf.random_normal_initializer(stddev=0.01)),
+        'b_fc3': tf.get_variable('b_fc3', [10], initializer=tf.random_normal_initializer(stddev=0.01)),
     }
 
     out_conv1 = FLAGS.PARAM.ACTIVATION(
@@ -57,12 +59,11 @@ class CNN_CLASSIFY(object):
     out_mp2 = tf.nn.max_pool(out_conv2, ksize=[1, 2, 2, 1], strides=[
                              1, 2, 2, 1], padding=FLAGS.PARAM.POOL_PADDING)
     out_conv_flatten = tf.reshape(out_mp2, [-1, 5*5*64])
-    out_fc1 = FLAGS.PARAM.ACTIVATION(
-        tf.matmul(out_conv_flatten, weights['w_fc1'])+biases['b_fc1']
-    )
+    out_fc1 = FLAGS.PARAM.ACTIVATION(tf.matmul(out_conv_flatten, weights['w_fc1'])+biases['b_fc1'])
     out_drop_fc1 = tf.nn.dropout(out_fc1, keep_prob=1.0-FLAGS.PARAM.DROP_RATE)
-    out_fc2 = tf.matmul(out_drop_fc1, weights['w_fc2'] + biases['b_fc2'])
-    self._logits = out_fc2
+    out_fc2 = FLAGS.PARAM.ACTIVATION(tf.matmul(out_drop_fc1, weights['w_fc2'] + biases['b_fc2']))
+    out_fc3 = tf.matmul(out_fc2, weights['w_fc3'] + biases['b_fc3'])
+    self._logits = out_fc3
     self._out_softmax = tf.nn.softmax(self._logits)
     self._accuracy = tf.reduce_mean(
         tf.cast(tf.equal(tf.argmax(self._out_softmax, 1), tf.argmax(self._onehot_label_batch, 1)), tf.float32))

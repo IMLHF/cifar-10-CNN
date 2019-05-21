@@ -7,7 +7,7 @@ class base_config(object):
   CIFAR_10_DIR = 'cifar-10-batches-py'
   BATCH_SIZE = 512
   GPU_RAM_ALLOW_GROWTH = True
-  EPOCHS = 50
+  EPOCHS = 35
   SAVE_DIR = 'exp'
   CHECK_POINT = 'nnet'
   CONV_PADDING = 'VALID'
