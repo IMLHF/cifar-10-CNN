@@ -17,10 +17,10 @@ def get_batch_from_trainset_use_tfdata():
       data.extend(batch_dict[b'data'])
       labels.extend((batch_dict[b'labels']))
   # print(len(data),len(labels))
-  data = np.array(data)
+  data = np.array(data,dtype=np.float32)/255.0
   data = np.reshape(data,[-1,3,32,32])
   data = np.transpose(data,[0,2,3,1])
-  labels = np.array(labels)
+  labels = np.array(labels,dtype=np.int32)
   # print(data.dtype,labels.dtype)
 
   # img=image_io.imread('imgtest.png')
@@ -46,10 +46,10 @@ def get_batch_from_testset_use_tfdata():
     data.extend(batch_dict[b'data'])
     labels.extend((batch_dict[b'labels']))
   # print(len(data),len(labels))
-  data = np.array(data)
+  data = np.array(data,dtype=np.float32)/255.0
   data = np.reshape(data,[-1,3,32,32])
   data = np.transpose(data,[0,2,3,1])
-  labels = np.array(labels)
+  labels = np.array(labels,dtype=np.int32)
 
   dataset = tf.data.Dataset.from_tensor_slices((data,labels))
   dataset = dataset.batch(FLAGS.PARAM.BATCH_SIZE)
@@ -58,8 +58,8 @@ def get_batch_from_testset_use_tfdata():
   return inputs, labels, iterator
 
 if __name__ == '__main__':
-  # inputs,labels,iterator = get_batch_from_trainset_use_tfdata()
-  inputs, labels, iterator = get_batch_from_testset_use_tfdata()
+  inputs,labels,iterator = get_batch_from_trainset_use_tfdata()
+  # inputs, labels, iterator = get_batch_from_testset_use_tfdata()
   sess = tf.Session()
   _, inputs_, labels_ = sess.run([iterator.initializer,inputs,labels])
   print(np.shape(inputs_))

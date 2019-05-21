@@ -31,16 +31,17 @@ def train():
         x_batch_tr, y_batch_tr, iter_trainset = cifar10_reader.get_batch_from_trainset_use_tfdata()
     with tf.name_scope('model'):
       tr_model = CNN_CLASSIFY(x_batch_tr, y_batch_tr, CNN_CLASSIFY.train)
-  g.finalize()
-  slim.model_analyzer.analyze_vars(tf.trainable_variables(), print_info=True)
-  sys.stdout.flush()
-  init = tf.group(tf.global_variables_initializer(),
-                  tf.local_variables_initializer())
-  config = tf.ConfigProto()
-  config.gpu_options.allow_growth = FLAGS.PARAM.GPU_RAM_ALLOW_GROWTH
-  config.allow_soft_placement = False
-  sess = tf.Session(config=config)
-  sess.run(init)
+    init = tf.group(tf.global_variables_initializer(),
+                    tf.local_variables_initializer())
+    g.finalize()
+
+    slim.model_analyzer.analyze_vars(tf.trainable_variables(), print_info=True)
+    sys.stdout.flush()
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = FLAGS.PARAM.GPU_RAM_ALLOW_GROWTH
+    config.allow_soft_placement = False
+    sess = tf.Session(config=config)
+    sess.run(init)
 
   for epoch in range(1,FLAGS.PARAM.EPOCHS+1):
     stime = time.time()

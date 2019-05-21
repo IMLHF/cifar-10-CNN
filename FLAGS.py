@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 
-class basic_config(object):
+class base_config(object):
   learning_rate = 0.001
   CIFAR_10_DIR = 'cifar-10-batches-py'
   BATCH_SIZE = 128
@@ -11,7 +11,7 @@ class basic_config(object):
   CHECK_POINT = 'nnet'
 
 
-class C001(basic_config):
+class C001(base_config):
   ACTIVATION = tf.nn.tanh
   CONV_PADDING = 'VALID'
   POOL_PADDING = 'VALID'
