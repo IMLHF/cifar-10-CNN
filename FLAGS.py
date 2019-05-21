@@ -4,7 +4,7 @@ import tensorflow as tf
 class base_config(object):
   learning_rate = 0.001
   CIFAR_10_DIR = 'cifar-10-batches-py'
-  BATCH_SIZE = 128
+  BATCH_SIZE = 2048
   GPU_RAM_ALLOW_GROWTH = True
   EPOCHS = 50
   SAVE_DIR = 'exp'

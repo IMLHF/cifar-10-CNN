@@ -7,7 +7,7 @@ import tensorflow as tf
 import FLAGS
 
 
-def get_batch_from_trainset_use_tfdata():
+def read_trainset_to_ram():
   data = []
   labels = []
   for i in range(1, 6):
@@ -31,13 +31,9 @@ def get_batch_from_trainset_use_tfdata():
 
   # plt.show()
   # print(np.shape(data),np.shape(labels))
-  dataset = tf.data.Dataset.from_tensor_slices((data,labels))
-  dataset = dataset.batch(FLAGS.PARAM.BATCH_SIZE)
-  iterator = dataset.make_initializable_iterator()
-  inputs, labels = iterator.get_next()
-  return inputs, labels, iterator
+  return data,labels
 
-def get_batch_from_testset_use_tfdata():
+def read_testset_to_ram():
   data = []
   labels = []
   file = os.path.join(FLAGS.PARAM.CIFAR_10_DIR,'test_batch')
@@ -51,17 +47,26 @@ def get_batch_from_testset_use_tfdata():
   data = np.transpose(data,[0,2,3,1])
   labels = np.array(labels,dtype=np.int32)
 
-  dataset = tf.data.Dataset.from_tensor_slices((data,labels))
+  return data,labels
+
+def get_batch_use_tfdata(features, labels):
+  features_placeholder = tf.placeholder(features.dtype, features.shape)
+  labels_placeholder = tf.placeholder(labels.dtype, labels.shape)
+
+  dataset = tf.data.Dataset.from_tensor_slices((features_placeholder, labels_placeholder))
   dataset = dataset.batch(FLAGS.PARAM.BATCH_SIZE)
   iterator = dataset.make_initializable_iterator()
-  inputs, labels = iterator.get_next()
-  return inputs, labels, iterator
+  inputs_batch, labels_batch = iterator.get_next()
+  return features_placeholder, labels_placeholder, inputs_batch, labels_batch, iterator
 
 if __name__ == '__main__':
-  inputs,labels,iterator = get_batch_from_trainset_use_tfdata()
-  # inputs, labels, iterator = get_batch_from_testset_use_tfdata()
+  inputs_np, labels_np = read_trainset_to_ram()
+  # features, labels = read_testset_to_ram()
+  x_p, y_p, inputs, labels, iterator = get_batch_use_tfdata(inputs_np, labels_np)
   sess = tf.Session()
-  _, inputs_, labels_ = sess.run([iterator.initializer,inputs,labels])
+  _, inputs_, labels_ = sess.run([iterator.initializer, inputs, labels],
+                                 feed_dict={x_p: inputs_np,
+                                            y_p: labels_np})
   print(np.shape(inputs_))
   image_io.imshow(inputs_[40])
   plt.show()

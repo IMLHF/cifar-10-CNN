@@ -28,7 +28,8 @@ def train():
   with g.as_default():
     with tf.device('/cpu:0'):
       with tf.name_scope('input'):
-        x_batch_tr, y_batch_tr, iter_trainset = cifar10_reader.get_batch_from_trainset_use_tfdata()
+        features, labels = cifar10_reader.read_trainset_to_ram()
+        x_p, y_p, x_batch_tr, y_batch_tr, iter_trainset = cifar10_reader.get_batch_use_tfdata(features,labels)
     with tf.name_scope('model'):
       tr_model = CNN_CLASSIFY(x_batch_tr, y_batch_tr, CNN_CLASSIFY.train)
     init = tf.group(tf.global_variables_initializer(),
@@ -45,7 +46,9 @@ def train():
 
   for epoch in range(1,FLAGS.PARAM.EPOCHS+1):
     stime = time.time()
-    sess.run([iter_trainset.initializer])
+    sess.run(iter_trainset.initializer,
+             feed_dict={x_p: features,
+                        y_p: labels})
     tr_loss = train_one_epoch(sess,tr_model)
     etime = time.time()
 
