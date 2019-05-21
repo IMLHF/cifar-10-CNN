@@ -1,0 +1,37 @@
+WARNING:tensorflow:From /mnt/f/OneDrive - bjfu.edu.cn/Course/图像处理算法及应用/exp/exp1/cifar-10-CNN/cnn_model.py:28: sparse_to_dense (from tensorflow.python.ops.sparse_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Create a `tf.sparse.SparseTensor` and use `tf.sparse.to_dense` instead.
+FLAGS.PARAM:
+BATCH_SIZE:512
+learning_rate:0.0005
+SAVE_DIR:exp
+CHECK_POINT:nnet_C001
+DROP_RATE:0.3
+__module__:FLAGS
+EPOCHS:35
+__dict__:<attribute '__dict__' of 'base_config' objects>
+CIFAR_10_DIR:cifar-10-batches-py
+CONV_PADDING:VALID
+POOL_PADDING:VALID
+__weakref__:<attribute '__weakref__' of 'base_config' objects>
+__doc__:None
+GPU_RAM_ALLOW_GROWTH:True
+---------
+Variables: name (type shape) [size]
+---------
+w_conv1:0 (float32_ref 5x5x3x32) [2400, bytes: 9600]
+w_conv2:0 (float32_ref 5x5x32x64) [51200, bytes: 204800]
+w_fc1:0 (float32_ref 1600x1024) [1638400, bytes: 6553600]
+w_fc2:0 (float32_ref 1024x512) [524288, bytes: 2097152]
+w_fc3:0 (float32_ref 512x10) [5120, bytes: 20480]
+b_conv1:0 (float32_ref 32) [32, bytes: 128]
+b_conv2:0 (float32_ref 64) [64, bytes: 256]
+b_fc1:0 (float32_ref 1024) [1024, bytes: 4096]
+b_fc2:0 (float32_ref 512) [512, bytes: 2048]
+b_fc3:0 (float32_ref 10) [10, bytes: 40]
+Total size of variables: 2223050
+Total bytes of variables: 8892200
+2019-05-21 22:00:09.941919: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+INFO:tensorflow:Restore from exp/nnet_C001/nnet_iter35_trloss0.5418_duration5s
+INFO:tensorflow:Restoring parameters from exp/nnet_C001/nnet_iter35_trloss0.5418_duration5s
+Accuracy: 66.89%, cost time 15.27s.
