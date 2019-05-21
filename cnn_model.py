@@ -72,7 +72,7 @@ class CNN_CLASSIFY(object):
       return
     self._cross_entropy_loss = tf.reduce_mean(
         tf.nn.softmax_cross_entropy_with_logits_v2(logits=self._logits, labels=self._onehot_label_batch))
-    self._train_op = tf.train.AdamOptimizer(
+    self._train_op = FLAGS.PARAM.OPTIMIZER(
         learning_rate=FLAGS.PARAM.learning_rate).minimize(self._cross_entropy_loss)
 
   @property

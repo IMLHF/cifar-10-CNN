@@ -17,15 +17,18 @@ class base_config(object):
 class C001(base_config):
   CHECK_POINT = 'nnet_C001'
   ACTIVATION = tf.nn.tanh
+  OPTIMIZER = tf.train.AdamOptimizer
 
 
 class C002(base_config):
   CHECK_POINT = 'nnet_C002'
   ACTIVATION = tf.nn.relu
+  OPTIMIZER = tf.train.AdamOptimizer
 
 
 class C003(base_config):
   CHECK_POINT = 'nnet_C003'
   ACTIVATION = tf.nn.sigmoid
+  OPTIMIZER = tf.train.AdamOptimizer
 
-PARAM = C001
+PARAM = C002
