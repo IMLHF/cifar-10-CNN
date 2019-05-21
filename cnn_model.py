@@ -22,7 +22,7 @@ class CNN_CLASSIFY(object):
     batch_size = tf.size(self._num_label_batch)
     self._onehot_label_batch = tf.expand_dims(self._num_label_batch, 1)
     indices = tf.expand_dims(tf.range(0, batch_size, 1), 1)
-    print(np.shape(indices),np.shape(self._onehot_label_batch))
+    # print(np.shape(indices),np.shape(self._onehot_label_batch))
     concated = tf.concat([indices, self._onehot_label_batch], 1)
     self._onehot_label_batch = tf.sparse_to_dense(
         concated, tf.stack([batch_size, 10]), 1.0, 0.0)  # [batch_size,10]
@@ -61,11 +61,11 @@ class CNN_CLASSIFY(object):
         tf.matmul(out_conv_flatten, weights['w_fc1'])+biases['b_fc1']
     )
     out_drop_fc1 = tf.nn.dropout(out_fc1, keep_prob=1.0-FLAGS.PARAM.DROP_RATE)
-    out_fc2 = FLAGS.PARAM.ACTIVATION(
-        tf.matmul(out_drop_fc1, weights['w_fc2'] + biases['b_fc2'])
-    )
+    out_fc2 = tf.matmul(out_drop_fc1, weights['w_fc2'] + biases['b_fc2'])
     self._logits = out_fc2
     self._out_softmax = tf.nn.softmax(self._logits)
+    self._accuracy = tf.reduce_mean(
+        tf.cast(tf.equal(tf.argmax(self._out_softmax, 1), tf.argmax(self._onehot_label_batch, 1)), tf.float32))
     self.saver = tf.train.Saver(tf.trainable_variables(), max_to_keep=30)
     if behavior == self.infer:
       return
@@ -85,3 +85,7 @@ class CNN_CLASSIFY(object):
   @property
   def out_softmax(self):
     return self._out_softmax
+
+  @property
+  def accuracy(self):
+    return self._accuracy
