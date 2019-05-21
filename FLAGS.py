@@ -31,4 +31,11 @@ class C003(base_config):
   ACTIVATION = tf.nn.sigmoid
   OPTIMIZER = tf.train.AdamOptimizer
 
-PARAM = C002
+
+class C004(base_config):
+  CHECK_POINT = 'nnet_C004'
+  ACTIVATION = tf.nn.relu
+  OPTIMIZER = tf.train.GradientDescentOptimizer
+
+
+PARAM = C004
