@@ -1,0 +1,48 @@
+FLAGS.PARAM:
+BATCH_SIZE:512
+CONV_PADDING:VALID
+POOL_PADDING:VALID
+CIFAR_10_DIR:cifar-10-batches-py
+__doc__:None
+EPOCHS:35
+__module__:FLAGS
+GPU_RAM_ALLOW_GROWTH:True
+SAVE_DIR:exp
+__dict__:<attribute '__dict__' of 'base_config' objects>
+DROP_RATE:0.3
+__weakref__:<attribute '__weakref__' of 'base_config' objects>
+learning_rate:0.0005
+CHECK_POINT:nnet_C004
+WARNING:tensorflow:From F:\OneDrive - bjfu.edu.cn\Course\图像处理算法及应用\exp\exp1\cifar-10-CNN\cnn_model.py:28: sparse_to_dense (from tensorflow.python.ops.sparse_ops) is deprecated and will
+be removed in a future version.
+Instructions for updating:
+Create a `tf.sparse.SparseTensor` and use `tf.sparse.to_dense` instead.
+---------
+Variables: name (type shape) [size]
+---------
+w_conv1:0 (float32_ref 5x5x3x32) [2400, bytes: 9600]
+w_conv2:0 (float32_ref 5x5x32x64) [51200, bytes: 204800]
+w_fc1:0 (float32_ref 1600x1024) [1638400, bytes: 6553600]
+w_fc2:0 (float32_ref 1024x512) [524288, bytes: 2097152]
+w_fc3:0 (float32_ref 512x10) [5120, bytes: 20480]
+b_conv1:0 (float32_ref 32) [32, bytes: 128]
+b_conv2:0 (float32_ref 64) [64, bytes: 256]
+b_fc1:0 (float32_ref 1024) [1024, bytes: 4096]
+b_fc2:0 (float32_ref 512) [512, bytes: 2048]
+b_fc3:0 (float32_ref 10) [10, bytes: 40]
+Total size of variables: 2223050
+Total bytes of variables: 8892200
+2019-05-29 17:51:06.523089: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2019-05-29 17:51:06.983216: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1432] Found device 0 with properties:
+name: GeForce GTX 1060 with Max-Q Design major: 6 minor: 1 memoryClockRate(GHz): 1.48
+pciBusID: 0000:01:00.0
+totalMemory: 6.00GiB freeMemory: 4.97GiB
+2019-05-29 17:51:07.020685: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1511] Adding visible gpu devices: 0
+2019-05-29 17:51:08.448357: I tensorflow/core/common_runtime/gpu/gpu_device.cc:982] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-05-29 17:51:08.457525: I tensorflow/core/common_runtime/gpu/gpu_device.cc:988]      0
+2019-05-29 17:51:08.462782: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1001] 0:   N
+2019-05-29 17:51:08.468636: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 4724 MB memory) -> physical GPU
+(device: 0, name: GeForce GTX 1060 with Max-Q Design, pci bus id: 0000:01:00.0, compute capability: 6.1)
+INFO:tensorflow:Restore from exp\nnet_C004\nnet_iter35_trloss2.3025_duration4s
+INFO:tensorflow:Restoring parameters from exp\nnet_C004\nnet_iter35_trloss2.3025_duration4s
+Accuracy: 9.48%, cost time 5.59s.
