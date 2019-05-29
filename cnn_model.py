@@ -60,7 +60,10 @@ class CNN_CLASSIFY(object):
                              1, 2, 2, 1], padding=FLAGS.PARAM.POOL_PADDING)
     out_conv_flatten = tf.reshape(out_mp2, [-1, 5*5*64])
     out_fc1 = FLAGS.PARAM.ACTIVATION(tf.matmul(out_conv_flatten, weights['w_fc1'])+biases['b_fc1'])
-    out_drop_fc1 = tf.nn.dropout(out_fc1, keep_prob=1.0-FLAGS.PARAM.DROP_RATE)
+    if behavior == self.train:
+      out_drop_fc1 = tf.nn.dropout(out_fc1, keep_prob=1.0-FLAGS.PARAM.DROP_RATE)
+    else:
+      out_drop_fc1 = out_fc1
     out_fc2 = FLAGS.PARAM.ACTIVATION(tf.matmul(out_drop_fc1, weights['w_fc2'] + biases['b_fc2']))
     out_fc3 = tf.matmul(out_fc2, weights['w_fc3'] + biases['b_fc3'])
     self._logits = out_fc3
